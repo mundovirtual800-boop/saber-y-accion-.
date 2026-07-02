@@ -1,0 +1,27 @@
+export default {
+  async fetch(request, env, ctx) {
+    const url = new URL(request.url);
+    const headers = { 
+      "Content-Type": "application/json", 
+      "Access-Control-Allow-Origin": "*" 
+    };
+
+    // Ruta de estado para verificar que el Worker vive
+    if (url.pathname === "/status") {
+      return Response.json({ status: "ok", message: "Worker activo" }, { headers });
+    }
+
+    // Ruta para consultar eventos en tu base de datos
+    if (url.pathname === "/events") {
+      try {
+        // Consultamos a la base de datos D1 vinculada
+        const { results } = await env.DB.prepare("SELECT * FROM events ORDER BY created_at DESC").all();
+        return Response.json(results, { headers });
+      } catch (e) {
+        return Response.json({ error: e.message }, { status: 500, headers });
+      }
+    }
+
+    return Response.json({ error: "Ruta no encontrada" }, { status: 404, headers });
+  }
+};
