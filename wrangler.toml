@@ -1,0 +1,9 @@
+name = "saber-y-accion"
+main = "src/index.js"
+compatibility_date = "2026-07-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "saber-accion-db"
+database_id = "21762a63-2b9d-485d-89aa-4915404c777e"
+
